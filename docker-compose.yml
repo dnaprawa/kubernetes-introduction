@@ -1,0 +1,16 @@
+version: "3.7"
+
+services:
+  frontend:
+    image: dnaprawa/projectapp-frontend:1.0
+    environment: 
+      API_URL: http://localhost:8080
+    ports:
+      - "3000:8080"
+    depends_on: 
+      - backend
+
+  backend:
+    image: dnaprawa/projectapp-backend:1.0
+    ports:
+      - "8080:8080"

@@ -1,0 +1,26 @@
+version: "3.7"
+
+services:
+  frontend:
+    image: reactjs-app
+    build:
+      context: ./frontend
+      args:
+        NODE_ENV: development
+      target: development
+    environment: 
+      API_URL: http://localhost:8080
+    ports:
+      - "3000:8080"
+    depends_on: 
+      - backend
+
+  backend:
+    image: nodejs-app
+    build:
+      context: ./backend
+      args:
+        NODE_ENV: production
+        PORT: "8080"
+    ports:
+      - "8080:8080"

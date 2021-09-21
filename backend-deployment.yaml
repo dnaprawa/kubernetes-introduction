@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: projectapp-backend
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      name: projectapp-backend
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 1
+      maxSurge: 1
+  template:
+    metadata:
+      labels:
+        name: projectapp-backend
+    spec:
+      containers:
+      - name: backend
+        image: dnaprawa/projectapp-backend:1.0
+        imagePullPolicy: Always
+        ports:
+          - name: http
+            containerPort: 8080
+            protocol: TCP

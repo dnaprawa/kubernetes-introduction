@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: backend-pod
+  labels:
+    name: projectapp-backend
+spec:
+  containers:
+  - name: backend
+    image: dnaprawa/projectapp-backend:1.0
+    ports:
+      - name: http
+        containerPort: 8080
+        protocol: TCP

@@ -1,0 +1,41 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: projectapp-frontend
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      name: projectapp-frontend
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 1
+      maxSurge: 1
+  template:
+    metadata:
+      labels:
+        name: projectapp-frontend
+    spec:
+      containers:
+      - name: frontend
+        image: dnaprawa/projectapp-frontend:1.0
+        imagePullPolicy: Always
+        ports:
+          - name: http
+            containerPort: 8080
+            protocol: TCP
+        env:
+        - name: API_URL
+          value: "/api"
+        volumeMounts:
+        - mountPath: /etc/nginx/conf.d # mount nginx-conf volume to /etc/nginx/conf.d
+          readOnly: true
+          name: projectapp-frontend-nginx-conf
+      volumes:
+      - name: projectapp-frontend-nginx-conf
+        configMap:
+          name: projectapp-frontend-nginx-conf # place ConfigMap `nginx-conf` on /etc/nginx/conf.d/default.conf file
+          items:
+            - key: nginx.conf
+              path: default.conf
